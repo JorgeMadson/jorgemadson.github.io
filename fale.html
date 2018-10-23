@@ -11,7 +11,7 @@
 <body>
     <h1 style="display: flex; align-items: center; justify-content: center;" id="teste">Troque esse texto!</h1>
     <script>
-        var result = decodeURI( window.location.search).replace("?", "") ? decodeURI( window.location.search).replace("?", "") : "Troque esse texto!";
+        var result = window.location.search ? decodeURI( window.location.search).replace("?", "") : "Troque esse texto!";
         document.getElementById("teste").textContent = result;
     </script>
 </body>
