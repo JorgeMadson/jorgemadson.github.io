@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <h1 style="display: flex; align-items: center; justify-content: center;" id="teste">Insira sua frase!</h1>
+    <h1 style="display: flex; align-items: center; justify-content: center;" id="teste">Troque esse texto!</h1>
     <script>
-        var result = decodeURI( window.location.search).replace("?", "");
+        var result = decodeURI( window.location.search).replace("?", "") ? decodeURI( window.location.search).replace("?", "") : "Troque esse texto!";
         document.getElementById("teste").textContent = result;
     </script>
 </body>
