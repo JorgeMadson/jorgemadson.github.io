@@ -14,12 +14,11 @@
             border-radius: 0.5em;
             background-color: red;
             position: relative;
+            /* Safari 4.0 - 8.0 */
             -webkit-animation-name: animateColorPosition;
-            /* Safari 4.0 - 8.0 */
             -webkit-animation-duration: 3s;
-            /* Safari 4.0 - 8.0 */
             -webkit-animation-iteration-count: infinite;
-            /* Safari 4.0 - 8.0 */
+            /* Standard syntax */
             animation-name: animateColorPosition;
             animation-duration: 3s;
             animation-iteration-count: infinite;
@@ -30,17 +29,17 @@
     0%   {background-color:red; left:0; top:50vh; font-size: 5rem;}
     25%  {background-color:yellow; left:25vw; top:0; font-size: 1rem;}
     50%  {background-color:blue; left: 50vw; top:30vh; font-size: 4rem; transform: rotate(90deg);}
-    75%  {background-color:green; left:25vw; top:90vh; font-size: 2rem;}
-    100% {background-color:pink; left:0; top:50vh; font-size: 4rem;}
+    75%  {background-color:black; color:white; left:25vw; top:90vh; font-size: 2rem;transform: rotate(-20deg)}
+    100% {background-color:red; left:0; top:50vh; font-size: 5rem; }
 }
 
 /* Standard syntax */
 @keyframes animateColorPosition {
     0%   {background-color:red; left:0; top:50vh; font-size: 5rem;}
-    25%  {background-color:yellow; left:25vw; top:0; font-size: 1rem;}
-    50%  {background-color:blue; left: 50vw; top:30vh; font-size: 4rem; transform: rotate(90deg);}
-    75%  {background-color:green; left:25vw; top:90vh; font-size: 2rem;}
-    100% {background-color:pink; left:0; top:50vh; font-size: 4rem; transform: rotate(-20deg)}
+    25%  {background-color:yellow; left:25vw; top:0; font-size: 1rem; transform: rotate(25deg)}
+    50%  {background-color:blue; left: 50vw; top:30vh; font-size: 4rem; transform: rotate(70deg);}
+    75%  {background-color:black; color:white; left:25vw; top:90vh; font-size: 2rem;transform: rotate(-20deg)}
+    100% {background-color:red; left:0; top:50vh; font-size: 5rem; }
 }
 </style>
 <script>
