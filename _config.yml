@@ -27,7 +27,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jorgemadson
 github_username:  jorgemadson
 linkedin_username: jorgemadson
-
+show_downloads: false
 logo: https://avatars1.githubusercontent.com/u/10890678?s=460&u=9066f0390cf9ee9c66741f7ce9e8dea14c22091c&v=4
 # google_analytics: 123
 
