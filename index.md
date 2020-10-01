@@ -5,10 +5,10 @@
 layout: default
 ---
 
-# Hello!
+# Welcome!
 
-Hello i am Jorge, and this is my portfolio.
-I created that to show some of my personal projects.
+Hello I am Jorge and this is my portfolio.
+I created that to show some of my projects.
 
 ## Card game Apps
 
