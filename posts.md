@@ -7,6 +7,8 @@ layout: default
 
 # Posts
 
+![](https://neilpatel.com/wp-content/uploads/2016/05/writingposts.jpg)
+
 <ul>
   {% for post in site.posts %}
     <li>
