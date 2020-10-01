@@ -15,10 +15,6 @@ I created that to show some of my projects.
 
 ---
 ### Projects:
-## Web sites
-
-- [English Online Games](https://englishonlinegames.com)
-  - A simple website to play games and practice english
 
 ## Android Apps
 
@@ -39,3 +35,9 @@ I created that to show some of my projects.
 - Best card LoR
   > Under development
   - Tinder like app to users says which are the best cards from Legends of Runeterra.
+
+
+## Web sites
+
+- [English Online Games](https://englishonlinegames.com)
+  - A simple website to play games and practice english
