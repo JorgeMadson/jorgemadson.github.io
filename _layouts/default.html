@@ -11,11 +11,22 @@
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
+  <style>
+    body {
+      background-image: url("/assets/img/space-background.gif");
+    }
+    .white-background {
+      padding: 1rem;
+      background-color: rgba(255, 255, 255, 0.85);;
+      border-radius: 1rem;
+    }
+  </style>
 </head>
 
 <body>
   <div class="wrapper">
-    <header>
+
+    <header class="white-background">
       <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
 
       {% if site.logo %}
@@ -25,14 +36,14 @@
       <p>{{ site.description | default: site.github.project_tagline }}</p>
 
       <p class="view"><a href="/">Home</a></p>
-      
+
       <p class="view"><a href="/talks">Talks</a></p>
 
       <p class="view"><a href="/posts">Blog</a></p>
 
       <p class="view"><a href="/assets/Jorge_Madson_Santos_Viana_resume_english.pdf">CV</a></p>
 
-      
+
       <!-- <p class="view"><a href="/about">About</a></p> -->
 
       {% if site.github.is_user_page %}
@@ -47,7 +58,7 @@
       </ul>
       {% endif %}
     </header>
-    <section>
+    <section class="white-background">
 
       {{ content }}
 
