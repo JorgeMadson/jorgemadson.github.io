@@ -6,14 +6,14 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, screen.width / screen.height, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#bg'),
 });
 
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(screen.width, screen.height);
 camera.position.setZ(30);
 camera.position.setX(-3);
 
