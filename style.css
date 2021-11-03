@@ -86,3 +86,23 @@ blockquote p {
 .right {
   grid-column: 6 / 12;
 }
+
+/* Responsive fix */
+
+@media only screen and (max-width: 768px) {
+  header {
+    grid-column: 1 / 12;
+    font-size: 2rem;
+  }
+  .right {
+    grid-column: 3 / 12;
+  }
+
+  blockquote p {
+    font-size: 3rem;
+  }
+
+  section {
+    grid-column: 1 / 12;
+  }
+}
