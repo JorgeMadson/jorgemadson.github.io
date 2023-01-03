@@ -81,13 +81,13 @@ Array(200).fill().forEach(addStar);
 
 // Background
 
-import spaceImgUrl from "./space.jpg";
+import spaceImgUrl from "./space.webp";
 const spaceTexture = new TextureLoader().load(spaceImgUrl);
 scene.background = spaceTexture;
 
 // Avatar
 
-import jorgeImgUrl from "./jorge.jpeg";
+import jorgeImgUrl from "./jorge.webp";
 const jorgeTexture = new TextureLoader().load(jorgeImgUrl);
 
 const jorge = new Mesh(
