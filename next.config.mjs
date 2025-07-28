@@ -9,11 +9,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-    /**
-   * Enable static exports.
-   * @see https://nextjs.org/docs/app/building-your-application/deploying/static-exports
-   */
+  /**
+ * Enable static exports.
+ * @see https://nextjs.org/docs/app/building-your-application/deploying/static-exports
+ */
   output: "export",
+  basePath: "/jorgemadson.github.io"
   //   experimental: {
   //   staticGenerationRetryCount: 1,
   //   staticGenerationMaxConcurrency: 8,
