@@ -41,7 +41,7 @@ export default function Home() {
           </div>
         </div>
         <Avatar className="h-40 w-40 md:h-64 md:w-64 rounded-full">
-          <AvatarImage src="/jorgemadson.github.io/JorgeMadsonFoto.webp?height=256&width=256" alt="Jorge Madson" />
+          <AvatarImage src="/JorgeMadsonFoto.webp?height=256&width=256" alt="Jorge Madson" />
           <AvatarFallback>JM</AvatarFallback>
         </Avatar>
       </section>

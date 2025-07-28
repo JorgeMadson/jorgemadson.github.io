@@ -14,7 +14,6 @@ const nextConfig = {
  * @see https://nextjs.org/docs/app/building-your-application/deploying/static-exports
  */
   output: "export",
-  basePath: "/jorgemadson.github.io"
   //   experimental: {
   //   staticGenerationRetryCount: 1,
   //   staticGenerationMaxConcurrency: 8,
