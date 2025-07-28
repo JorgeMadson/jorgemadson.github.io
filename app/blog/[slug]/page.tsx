@@ -6,6 +6,13 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 
 // This would typically come from a CMS or database
+ export async function generateStaticParams() {
+  return [
+    { slug: "frontend-to-backend" },
+    { slug: "python-web-development" },
+  ]
+ }
+
 const getBlogPost = (slug: string) => {
   const posts = {
     "frontend-to-backend": {
