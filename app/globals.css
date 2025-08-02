@@ -55,7 +55,92 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: linear-gradient(-45deg, 
+      hsl(var(--background)), 
+      hsl(220 60% 98%), 
+      hsl(210 50% 96%), 
+      hsl(var(--background))
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(221.2 83.2% 53.3% / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(221.2 83.2% 53.3% / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(210 40% 96% / 0.8) 0%, transparent 1px);
+    background-size: 120px 120px, 180px 180px, 40px 40px;
+    animation: floatPattern 20s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Controle de animações pausadas */
+  body.animations-paused {
+    animation-play-state: paused;
+  }
+  
+  body.animations-paused::before {
+    animation-play-state: paused;
+  }
+  
+  .dark body {
+    background: linear-gradient(-45deg, 
+      hsl(var(--background)), 
+      hsl(220 84% 6%), 
+      hsl(215 85% 8%), 
+      hsl(var(--background))
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+
+  .dark body.animations-paused {
+    animation-play-state: paused;
+  }
+  
+  .dark body::before {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(217.2 91.2% 59.8% / 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(217.2 91.2% 59.8% / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(217.2 32.6% 17.5% / 0.3) 0%, transparent 1px);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes floatPattern {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(15px, -15px) rotate(120deg);
+  }
+  66% {
+    transform: translate(-10px, 10px) rotate(240deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
   }
 }
 

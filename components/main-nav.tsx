@@ -13,6 +13,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { ModeToggle } from "@/components/mode-toggle"
+import { AnimationToggle } from "@/components/animation-toggle"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 
@@ -75,11 +76,15 @@ export function MainNav() {
               ))}
             </NavigationMenuList>
           </NavigationMenu>
-          <ModeToggle />
+          <div className="flex items-center gap-2">
+            <AnimationToggle />
+            <ModeToggle />
+          </div>
         </nav>
 
         {/* Mobile Navigation */}
         <div className="md:hidden flex items-center gap-2">
+          <AnimationToggle />
           <ModeToggle />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
