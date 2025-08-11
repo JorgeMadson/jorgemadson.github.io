@@ -5,9 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { getAllPosts } from "@/lib/blog"
+import { getFeaturedProjects } from "@/lib/projects"
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 2) // Últimos 2 posts
+  const featuredProjects = getFeaturedProjects()
   
   return (
     <div className="container mx-auto px-4 py-12">
@@ -59,51 +61,34 @@ export default function Home() {
           </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Canote Bike Shop Management</CardTitle>
-              <CardDescription>SaaS for small bike businesses</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                A SaaS solution to help small bike businesses thrive by managing inventory, customers, and marketing.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Badge>SaaS</Badge>
-              <Badge className="ml-2">In Progress</Badge>
-            </CardFooter>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>SeedCapital</CardTitle>
-              <CardDescription>Crowdfunding token on ETH network</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                A token created on the Ethereum network designed for crowdfunding projects.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Badge>Web3</Badge>
-              <Badge className="ml-2">Ethereum</Badge>
-            </CardFooter>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Samba Protocol</CardTitle>
-              <CardDescription>Blockchain project (Coming Soon)</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Currently in development and about to be released. More information coming soon.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Badge>Web3</Badge>
-              <Badge className="ml-2">Coming Soon</Badge>
-            </CardFooter>
-          </Card>
+          {featuredProjects.map((project, index) => (
+            <Card key={index}>
+              <CardHeader>
+                <CardTitle>{project.title}</CardTitle>
+                <CardDescription>{project.description}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {project.tags.slice(0, 2).map((tag, tagIndex) => (
+                    <Badge key={tagIndex} variant="secondary">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                <Badge
+                  className={
+                    project.status === "Completed"
+                      ? "bg-green-500"
+                      : project.status === "In Progress"
+                        ? "bg-yellow-500"
+                        : "bg-blue-500"
+                  }
+                >
+                  {project.status}
+                </Badge>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
