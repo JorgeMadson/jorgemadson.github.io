@@ -3,61 +3,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { getAllPosts } from "@/lib/blog"
 
 export default function BlogPage() {
-  const posts = [
-    {
-      title: "My Journey from Frontend to Backend",
-      description:
-        "After years of creating beautiful user interfaces, I'm diving into the world of backend development. Here's why and how I'm making the transition...",
-      date: "April 20, 2025",
-      tags: ["Career", "Backend", "Development"],
-      slug: "frontend-to-backend",
-      image: "/placeholder.svg?height=200&width=400",
-    },
-    {
-      title: "Getting Started with Python for Web Development",
-      description:
-        "Python has become my go-to language for backend development. In this post, I share my learning path and some useful resources for beginners...",
-      date: "April 15, 2025",
-      tags: ["Python", "Web Development", "Tutorial"],
-      slug: "python-web-development",
-      image: "/placeholder.svg?height=200&width=400",
-    },
-    {
-      title: "Understanding Web3 and Blockchain Technology",
-      description:
-        "A comprehensive guide to understanding the basics of Web3 and blockchain technology for developers...",
-      date: "April 5, 2025",
-      tags: ["Web3", "Blockchain", "Ethereum"],
-      slug: "web3-blockchain-basics",
-      image: "/placeholder.svg?height=200&width=400",
-    },
-    {
-      title: "Building a SaaS Application from Scratch",
-      description: "A step-by-step guide on how to build a SaaS application from idea to deployment...",
-      date: "March 28, 2025",
-      tags: ["SaaS", "Development", "Business"],
-      slug: "building-saas-application",
-      image: "/placeholder.svg?height=200&width=400",
-    },
-    {
-      title: "The Power of Go for Backend Development",
-      description: "Exploring the benefits of using Go for building efficient and scalable backend services...",
-      date: "March 15, 2025",
-      tags: ["Go", "Backend", "Performance"],
-      slug: "go-backend-development",
-      image: "/placeholder.svg?height=200&width=400",
-    },
-    {
-      title: "Migrating from REST to GraphQL",
-      description: "My experience transitioning from REST APIs to GraphQL and the lessons learned along the way...",
-      date: "March 5, 2025",
-      tags: ["GraphQL", "API", "REST"],
-      slug: "rest-to-graphql",
-      image: "/placeholder.svg?height=200&width=400",
-    },
-  ]
+  const posts = getAllPosts()
 
   return (
     <div className="container mx-auto px-4 py-12">

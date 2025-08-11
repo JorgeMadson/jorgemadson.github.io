@@ -1,0 +1,43 @@
+---
+title: "How to Test Your Local Internet Speed"
+description: "Learn how to use iperf3 to test network speed between devices on your local network and troubleshoot performance issues."
+date: "2025-08-11"
+author: "Jorge Madson"
+tags: ["Internet", "Speed Test", "Tutorial", "Networking"]
+image: "/placeholder.svg?height=200&width=400"
+published: true
+---
+
+I have a local server running Debian, but I found out that the cable connection speed was slow when transferring files from one PC to another through Samba. Using iperf3, I discovered the maximum speed was 85mbps, so the router/AP/modem was capped at the cable.
+
+## How to use iperf3?
+
+Download iperf3 on both your server and client (doesn't matter which one is which):
+
+- `iperf3 -s` # On the server
+- `iperf3 -c [server IP]` # On the client
+
+## Installation
+
+On most Linux distributions, you can install iperf3 using your package manager:
+
+- Ubuntu/Debian: `sudo apt install iperf3`
+- CentOS/RHEL: `sudo yum install iperf3`
+- macOS: `brew install iperf3`
+
+## Understanding the Results
+
+iperf3 will show you:
+
+- Transfer rate in Mbits/sec
+- Total data transferred
+- Test duration
+- Retry count (if any packets were lost)
+
+## What to Do with Your Results
+
+I tested with both WiFi and cable connections and got different speeds. This helped me identify that the bottleneck was in my cable infrastructure, not the wireless setup.
+
+Use these results to identify network bottlenecks and optimize your local network performance.
+
+*TODO: Add screenshot of actual iperf3 output for reference*
