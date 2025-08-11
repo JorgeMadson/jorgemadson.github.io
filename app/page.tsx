@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { getAllPosts } from "@/lib/blog"
 
 export default function Home() {
+  const latestPosts = getAllPosts().slice(0, 2) // Últimos 2 posts
+  
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Hero Section */}
@@ -16,14 +19,13 @@ export default function Home() {
             Software Engineer transitioning from Frontend to Backend Development
           </h2>
           <p className="text-lg text-muted-foreground">
-            With 5+ years of experience in web development, I'm now focusing on backend technologies like Python, C#,
+            With {new Date().getFullYear() - 2017}+ years of experience in web development, I'm now focusing on backend technologies like Python, C#,
             JavaScript, and Go to build robust, scalable applications.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Badge className="px-3 py-1 text-sm">Python</Badge>
             <Badge className="px-3 py-1 text-sm">JavaScript</Badge>
-            <Badge className="px-3 py-1 text-sm">C#</Badge>
-            <Badge className="px-3 py-1 text-sm">Go</Badge>
+            <Badge className="px-3 py-1 text-sm">TypeScript</Badge>
+            <Badge className="px-3 py-1 text-sm">Python</Badge>
             <Badge className="px-3 py-1 text-sm">React</Badge>
             <Badge className="px-3 py-1 text-sm">Vue.js</Badge>
             <Badge className="px-3 py-1 text-sm">Web3</Badge>
@@ -116,44 +118,26 @@ export default function Home() {
           </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>My Journey from Frontend to Backend</CardTitle>
-              <CardDescription>Posted on April 20, 2025</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                After years of creating beautiful user interfaces, I'm diving into the world of backend development.
-                Here's why and how I'm making the transition...
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" asChild>
-                <Link href="/blog/frontend-to-backend">
-                  Read More <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </CardFooter>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Getting Started with Python for Web Development</CardTitle>
-              <CardDescription>Posted on April 15, 2025</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Python has become my go-to language for backend development. In this post, I share my learning path and
-                some useful resources for beginners...
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" asChild>
-                <Link href="/blog/python-web-development">
-                  Read More <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </CardFooter>
-          </Card>
+          {latestPosts.map((post) => (
+            <Card key={post.slug}>
+              <CardHeader>
+                <CardTitle>{post.title}</CardTitle>
+                <CardDescription>Posted on {post.date}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  {post.description}
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Button variant="outline" asChild>
+                  <Link href={`/blog/${post.slug}`}>
+                    Read More <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
         </div>
       </section>
 

@@ -10,7 +10,7 @@ export default function ResumePage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h1 className="text-4xl font-bold mb-2">Resume</h1>
-          <p className="text-muted-foreground">Software Engineer with 5+ years of experience</p>
+          <p className="text-muted-foreground">Software Engineer with {new Date().getFullYear() - 2017}+ years of experience</p>
         </div>
         <Button asChild>
           <Link href="/resume.pdf" target="_blank">
