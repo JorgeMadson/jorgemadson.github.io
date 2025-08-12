@@ -1,0 +1,170 @@
+---
+title: "Quando usar useMemo e useCallback"
+description: "Muitos dev react tem essa dúvida, incluindo eu."
+date: "2025-08-12"
+author: "Jorge Madson"
+tags: ["React", "Frontend", "Development"]
+image: "/placeholder.svg?height=200&width=400"
+published: true
+---
+Vou explicar quando e como usar useMemo e useCallback
+  corretamente. É uma dúvida muito comum e importante para
+  otimização de performance no React.
+
+###  🎯 Quando usar useMemo
+
+  ✅ USE quando:
+
+  1. Cálculos pesados que dependem de props/state:
+  const ExpensiveComponent = ({ data, filter }) => {
+    // ❌ Roda toda vez que o componente re-renderiza
+    const filteredData = data.filter(item => item.category ===
+  filter)
+
+    // ✅ Só roda quando data ou filter mudam
+    const filteredData = useMemo(
+      () => data.filter(item => item.category === filter),
+      [data, filter]
+    )
+  }
+
+  2. Objetos/arrays que são passados como props:
+  const Parent = ({ users }) => {
+    // ❌ Cria novo objeto toda vez = filho re-renderiza
+    const config = { showAvatar: true, size: 'large' }
+
+    // ✅ Mesmo objeto = filho não re-renderiza
+    const config = useMemo(
+      () => ({ showAvatar: true, size: 'large' }),
+      []
+    )
+
+    return <UserList users={users} config={config} />
+  }
+
+  ❌ NÃO USE quando:
+
+  1. Valores primitivos simples:
+  // ❌ Desnecessário - string é barata
+  const text = useMemo(() => `Hello ${name}`, [name])
+
+  // ✅ Mais simples e performático
+  const text = `Hello ${name}`
+
+###  🎯 Quando usar useCallback
+
+  ✅ USE quando:
+
+  1. Funções passadas para componentes filhos:
+  const Parent = ({ items }) => {
+    // ❌ Nova função toda vez = filho re-renderiza
+    const handleClick = (id) => console.log(id)
+
+    // ✅ Mesma função = filho não re-renderiza
+    const handleClick = useCallback(
+      (id) => console.log(id),
+      []
+    )
+
+    return items.map(item =>
+      <ExpensiveChild key={item.id} onClick={handleClick} />
+    )
+  }
+
+  2. Dependências de outros hooks:
+  const SearchComponent = ({ query }) => {
+    // ❌ useEffect roda toda vez
+    const fetchData = () => api.search(query)
+
+    useEffect(() => {
+      fetchData()
+    }, [fetchData]) // fetchData muda toda vez
+
+    // ✅ useEffect só roda quando query muda
+    const fetchData = useCallback(
+      () => api.search(query),
+      [query]
+    )
+
+    useEffect(() => {
+      fetchData()
+    }, [fetchData])
+  }
+
+  ❌ NÃO USE quando:
+
+  1. Função não é passada para filhos:
+  // ❌ Desnecessário
+  const handleClick = useCallback(() => {
+    setCount(c => c + 1)
+  }, [])
+
+  // ✅ Mais simples
+  const handleClick = () => {
+    setCount(c => c + 1)
+  }
+
+  📝 Exemplos Práticos do Nosso Projeto
+
+  1. useMemo no useGitHubSearch:
+
+  // ✅ Evita recriar array toda vez
+  const repos = useMemo(() => data || [], [data])
+
+  // ✅ Evita recalcular toda vez
+  const hasNextPage = useMemo(() => repos.length === 12,
+  [repos.length])
+
+  2. useCallback no SearchBox:
+
+  // ✅ Evita recriar função quando SearchBox re-renderiza
+  const handleInputChange = useCallback((e) => {
+    setUsername(e.target.value)
+  }, [setUsername])
+
+  3. useMemo no RepoList:
+
+  // ✅ Evita recalcular condição complexa
+  const showPagination = useMemo(
+    () => !isLoading && !error && repos.length > 0 &&
+  (hasNextPage || hasPrevPage),
+    [isLoading, error, repos.length, hasNextPage, hasPrevPage]
+  )
+
+  // ✅ Evita recriar skeleton items
+  const skeletonItems = useMemo(() =>
+    Array.from({ length: 6 }).map((_, i) => (
+      <div key={i} className="skeleton-loading h-28 rounded-lg" 
+  />
+    )),
+    [] // Empty deps = só cria uma vez
+  )
+
+  🚨 Regra de Ouro
+
+  "Não otimize prematuramente"
+
+  1. Primeiro: Escreva código limpo e funcional
+  2. Depois: Meça performance (React DevTools Profiler)
+  3. Só então: Otimize onde realmente precisar
+
+  🔍 Como Identificar Onde Usar
+
+  1. React DevTools Profiler - mostra componentes que
+  re-renderizam muito
+  2. Console.log em renders - vê quantas vezes roda
+  3. Performance - se notou lentidão específica
+
+  ⚖️ Custo vs Benefício
+
+  // ❌ Overhead desnecessário
+  const simpleValue = useMemo(() => x + y, [x, y])
+
+  // ✅ Benefício real
+  const expensiveCalculation = useMemo(() => {
+    return heavyProcessing(largeDataSet)
+  }, [largeDataSet])
+
+  Resumo: Use quando o benefício de evitar recálculo/re-render
+  for maior que o overhead do hook. Na dúvida, comece sem e
+  adicione se precisar!
