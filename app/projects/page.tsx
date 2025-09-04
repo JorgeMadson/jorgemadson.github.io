@@ -50,7 +50,7 @@ export default function ProjectsPage() {
             <CardFooter className="flex gap-2">
               {project.link && (
                 <Button variant="outline" size="sm" asChild>
-                  <Link href={project.link} target="_blank" rel="noopener noreferrer">
+                  <Link href={project.link} rel="noopener noreferrer">
                     <ExternalLink className="mr-2 h-4 w-4" /> View Live
                   </Link>
                 </Button>
