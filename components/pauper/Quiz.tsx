@@ -1,11 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { MagicCard } from '@/types/Carta';
 import QuestionCard from './QuestionCard';
 import Options from './Options';
 
 type QuestionType = 'name' | 'mana' | 'effect';
+type QuizStatus = 'playing' | 'finished';
 
 const MAX_QUESTIONS = 10;
 
@@ -18,8 +19,8 @@ const getRandomType = (): QuestionType =>
   ['name', 'name', 'mana', 'effect'][getRandomInt(3)] as QuestionType;
 
 const Quiz = ({ cartas }: { cartas: MagicCard[] }) => {
-  const [quizCards] = useState(() => getRandomUniqueCards(cartas, MAX_QUESTIONS));
-  console.log('Cartas selecionadas para o quiz:', quizCards.map(card => card.name).join(', '));
+  const [quizStatus, setQuizStatus] = useState<QuizStatus>('playing');
+  const [quizCards, setQuizCards] = useState(() => getRandomUniqueCards(cartas, MAX_QUESTIONS));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questionType, setQuestionType] = useState<QuestionType>(getRandomType());
   const [score, setScore] = useState(0);
@@ -27,45 +28,57 @@ const Quiz = ({ cartas }: { cartas: MagicCard[] }) => {
 
   const currentCard = quizCards[currentIndex];
 
+  const restartQuiz = useCallback(() => {
+    setQuizCards(getRandomUniqueCards(cartas, MAX_QUESTIONS));
+    setCurrentIndex(0);
+    setQuestionType(getRandomType());
+    setScore(0);
+    setSelected(null);
+    setQuizStatus('playing');
+  }, [cartas]);
 
-  if (currentIndex >= MAX_QUESTIONS) {
-    return (
-      <div className="text-center mt-10">
-        <h2 className="text-2xl mb-4">Quiz finalizado!</h2>
-        <p className="mb-4">Sua pontuação: {score}/{MAX_QUESTIONS}</p>
-        <button
-          className="bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600"
-          onClick={() => window.location.reload()}
-        >
-          Tentar novamente
-        </button>
-      </div>
-    );
-  }
+  const options = useMemo(() => {
+    if (!currentCard) return [];
 
-    const options = useMemo(() => {
-    // pegamos a carta correta e 3 cartas aleatórias diferentes
     const otherCards = cartas.filter(c => c.name !== currentCard.name);
-    const randomChoices = getRandomUniqueCards(otherCards, 3); // 3 alternativas
+    const randomChoices = getRandomUniqueCards(otherCards, 3);
     const allChoices = [...randomChoices, currentCard];
 
-    // embaralhar as opções
     return allChoices.sort(() => Math.random() - 0.5);
-  }, [currentCard, cartas]); // recalcula apenas quando a carta atual muda
-
-
+  }, [currentCard, cartas]);
 
   const handleAnswer = (choice: MagicCard) => {
     setSelected(choice);
     if (choice.name === currentCard.name) {
       setScore(score + 1);
     }
+
     setTimeout(() => {
       setSelected(null);
-      setCurrentIndex((prev) => prev + 1);
-      setQuestionType(getRandomType());
-    }, 1000);
+
+      if (currentIndex + 1 >= MAX_QUESTIONS) {
+        setQuizStatus('finished');
+      } else {
+        setCurrentIndex(prev => prev + 1);
+        setQuestionType(getRandomType());
+      }
+    }, 500);
   };
+
+  if (quizStatus === 'finished') {
+    return (
+      <div className="text-center mt-10">
+        <h2 className="text-2xl mb-4">Quiz finalizado!</h2>
+        <p className="mb-4">Sua pontuação: {score}/{MAX_QUESTIONS}</p>
+        <button
+          className="bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600"
+          onClick={restartQuiz}
+        >
+          Tentar novamente
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-xl flex flex-col items-center">
