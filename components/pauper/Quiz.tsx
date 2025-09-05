@@ -20,7 +20,7 @@ const getRandomType = (): QuestionType =>
 
 const scoreMessage = (score: number) => {
   {
-    if (score === MAX_QUESTIONS) 
+    if (score === MAX_QUESTIONS)
       return <p className="text-green-400 mb-4">Oh loko, brabo!! 🎉</p>
     else if (score >= MAX_QUESTIONS * 0.7)
       return <p className="text-cyan-400 mb-4">Muito bom! 👍</p>
@@ -68,12 +68,48 @@ const Quiz = ({ cartas }: { cartas: MagicCard[] }) => {
   const options = useMemo(() => {
     if (!currentCard || !isMounted) return [];
 
-    const otherCards = cartas.filter(c => c.name !== currentCard.name);
+    let otherCards = cartas.filter(c => c.name !== currentCard.name);
+
+    // Se for pergunta de mana, garantir que as opções tenham custos diferentes
+    if (questionType === 'mana') {
+      // Filtrar cartas com custo de mana diferente da carta atual
+      otherCards = otherCards.filter(c => c.mana_cost !== currentCard.mana_cost);
+
+      // Garantir que as 3 opções erradas tenham custos únicos entre si
+      const uniqueManaCostOptions: MagicCard[] = [];
+      const usedManaCosts = new Set<string>();
+
+      // Adicionar a mana_cost da carta atual ao conjunto de custos usados
+      usedManaCosts.add(currentCard.mana_cost || '-');
+
+      for (const card of otherCards.sort(() => Math.random() - 0.5)) {
+        if (!usedManaCosts.has(card.mana_cost || '-')) {
+          uniqueManaCostOptions.push(card);
+          usedManaCosts.add(card.mana_cost || '-');
+
+          if (uniqueManaCostOptions.length >= 3) break;
+        }
+      }
+
+      // Se não encontrou 3 opções com custos únicos, completar com cartas aleatórias
+      if (uniqueManaCostOptions.length < 3) {
+        const remainingCards = otherCards.filter(c =>
+          !uniqueManaCostOptions.some(opt => opt.name === c.name)
+        );
+        uniqueManaCostOptions.push(
+          ...remainingCards.slice(0, 3 - uniqueManaCostOptions.length)
+        );
+      }
+
+      const allChoices = [...uniqueManaCostOptions, currentCard];
+      return allChoices.sort(() => Math.random() - 0.5);
+    }
+
+    // Para outros tipos de pergunta, manter a lógica original
     const randomChoices = getRandomUniqueCards(otherCards, 3);
     const allChoices = [...randomChoices, currentCard];
-
     return allChoices.sort(() => Math.random() - 0.5);
-  }, [currentCard, cartas, isMounted]);
+  }, [currentCard, cartas, isMounted, questionType]);
 
   const handleAnswer = (choice: MagicCard) => {
     if (!currentCard) return;
@@ -92,7 +128,7 @@ const Quiz = ({ cartas }: { cartas: MagicCard[] }) => {
         setCurrentIndex(prev => prev + 1);
         setQuestionType(getRandomType());
       }
-    }, 500);
+    }, 300);
   };
 
   if (!isMounted) {
