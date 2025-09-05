@@ -18,6 +18,19 @@ const getRandomUniqueCards = (all: MagicCard[], count: number) =>
 const getRandomType = (): QuestionType =>
   ['name', 'name', 'mana', 'effect'][getRandomInt(3)] as QuestionType;
 
+const scoreMessage = (score: number) => {
+  {
+    if (score === MAX_QUESTIONS) 
+      return <p className="text-green-400 mb-4">Oh loko, brabo!! 🎉</p>
+    else if (score >= MAX_QUESTIONS * 0.7)
+      return <p className="text-cyan-400 mb-4">Muito bom! 👍</p>
+    else if (score >= MAX_QUESTIONS * 0.4)
+      return <p className="text-yellow-400 mb-4">KKK! Você é um goblin? 👺</p>
+    else
+      return <p className="text-red-400 mb-4">Sabe de p*rra nenhuma kkkkkk! Vai ler umas cartas. 🤓</p>
+  }
+}
+
 const Quiz = ({ cartas }: { cartas: MagicCard[] }) => {
   const [quizStatus, setQuizStatus] = useState<QuizStatus>('playing');
   const [quizCards, setQuizCards] = useState<MagicCard[]>([]);
@@ -37,8 +50,6 @@ const Quiz = ({ cartas }: { cartas: MagicCard[] }) => {
     setScore(0);
     setSelected(null);
     setQuizStatus('playing');
-
-    return { newQuizCards, newQuestionType };
   }, [cartas]);
 
   // ⚡️ Inicialização no cliente
@@ -102,6 +113,7 @@ const Quiz = ({ cartas }: { cartas: MagicCard[] }) => {
     return (
       <div className="text-center mt-10">
         <h2 className="text-2xl mb-4">Quiz finalizado!</h2>
+        {scoreMessage(score)}
         <p className="mb-4">Sua pontuação: {score}/{MAX_QUESTIONS}</p>
         <button
           className="bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600"
@@ -129,7 +141,8 @@ const Quiz = ({ cartas }: { cartas: MagicCard[] }) => {
         onAnswer={handleAnswer}
         selected={selected}
       />
-      <p className="mt-4">Pontuação: {score}/ {MAX_QUESTIONS}</p>
+      <p className="mt-4">Pontuação: {score}</p>
+      <p className="text-sm text-gray-600">Pergunta {currentIndex + 1} de {MAX_QUESTIONS}</p>
     </div>
   );
 };
