@@ -5,7 +5,8 @@ import { MagicCard } from '@/types/Carta';
 import QuestionCard from './QuestionCard';
 import Options from './Options';
 
-type QuestionType = 'name' | 'mana' | 'effect';
+const questionTypes = ['name', 'mana', 'effect'] as const;
+type QuestionType = typeof questionTypes[number];
 type QuizStatus = 'playing' | 'finished';
 
 const MAX_QUESTIONS = 10;
@@ -16,7 +17,7 @@ const getRandomUniqueCards = (all: MagicCard[], count: number) =>
   all.sort(() => Math.random() - 0.5).slice(0, count);
 
 const getRandomType = (): QuestionType =>
-  ['name', 'name', 'mana', 'effect'][getRandomInt(3)] as QuestionType;
+  ['name', 'mana', 'effect'][getRandomInt(questionTypes.length)] as QuestionType;
 
 const scoreMessage = (score: number) => {
   {

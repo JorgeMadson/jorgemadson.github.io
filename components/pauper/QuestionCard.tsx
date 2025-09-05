@@ -5,7 +5,7 @@ const QuestionCard = ({ card, type }: { card: MagicCard; type: string }) => {
     return (
       <>
         <h3 className="text-lg mb-2">Qual carta tem este efeito?</h3>
-        <p className="italic text-slate-300">{card.oracle_text}</p>
+        <p className="italic text-slate-300 mb-4">{card.oracle_text}</p>
       </>
     );
   }
