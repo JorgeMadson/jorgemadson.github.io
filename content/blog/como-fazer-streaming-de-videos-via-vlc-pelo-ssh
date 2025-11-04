@@ -1,0 +1,129 @@
+---
+title: "Como Fazer Streaming de Vídeos via VLC pelo SSH"
+date: "2025-11-04"
+---
+
+import CodeBlock from '@theme/CodeBlock'
+
+# Streaming de Vídeos com VLC via SSH
+
+Se você tem um servidor remoto com vídeos e quer assisti-los em qualquer lugar via navegador, o VLC é uma ferramenta poderosa.  
+Neste tutorial, vamos criar um **script que gera uma playlist automática** e permite controle via interface web.
+
+---
+
+## Passo 1: Estrutura da pasta
+
+Suponha que seus vídeos estão em uma pasta como:
+
+```
+
+/media/jorge/HD externo/Curso Full Cycle/Parte 1/2. Docker/3. Iniciando com Docker/
+
+```
+
+e os arquivos têm nomes como:
+
+```
+
+1. Hello World.mp4
+2. Executando Ubuntu.mp4
+3. Publicando portas com nginx.mp4
+
+````
+
+> Observação: espaços, acentos e subpastas são totalmente suportados pelo script.
+
+---
+
+## Passo 2: Criar o Script `start_vlc.sh`
+
+Salve o seguinte conteúdo em `~/start_vlc.sh` no seu servidor:
+
+<CodeBlock language="bash">
+#!/bin/bash
+
+# --- Configurações ---
+HTTP_PASSWORD="senha"     # senha da interface web
+WEB_PORT=8081             # porta da interface web
+STREAM_PORT=8080          # porta do streaming
+PLAYLIST="playlist.m3u"   # nome da playlist temporária
+
+# --- Criar playlist ---
+# Remove playlist antiga
+rm -f "$PLAYLIST"
+
+# Adiciona todos os MP4 da pasta e subpastas, ordenando por nome
+find . -type f -iname "*.mp4" | sort > "$PLAYLIST"
+
+# --- Rodar VLC ---
+cvlc --intf dummy \
+     --extraintf http --http-port "$WEB_PORT" --http-password "$HTTP_PASSWORD" \
+     --sout "#standard{access=http,mux=ts,dst=:$STREAM_PORT}" \
+     --loop \
+     "$PLAYLIST"
+</CodeBlock>
+
+> Esse script faz três coisas importantes:
+>
+> 1. Cria uma playlist `playlist.m3u` com todos os vídeos da pasta (mesmo com espaços ou acentos).
+> 2. Inicia o VLC em modo **sem interface gráfica** (`dummy`).
+> 3. Habilita **HTTP** para controlar a reprodução via navegador e faz o **streaming** para outra porta.
+
+---
+
+## Passo 3: Dar permissão de execução
+
+No SSH, rode:
+
+```bash
+chmod +x ~/start_vlc.sh
+````
+
+---
+
+## Passo 4: Rodar o VLC
+
+Entre na pasta com os vídeos:
+
+```bash
+cd "/media/jorge/HD externo/Curso Full Cycle/Parte 1/2. Docker/3. Iniciando com Docker/"
+```
+
+E execute:
+
+```bash
+~/start_vlc.sh
+```
+
+---
+
+## Passo 5: Acessar o VLC via navegador
+
+* **Interface web (controle da playlist e pausa/avançar):**
+
+```
+http://<IP_DO_SERVIDOR>:8081
+```
+
+Senha: `senha` (ou a que você configurou no script)
+
+* **Streaming de vídeo (assistir pelo navegador ou VLC local):**
+
+```
+http://<IP_DO_SERVIDOR>:8080/
+```
+
+---
+
+## Passo 6: Observações
+
+* O script **atualiza automaticamente a playlist** toda vez que você rodar, incluindo novos vídeos.
+* Arquivos com espaços, acentos e subpastas são suportados.
+* A interface web permite pausar, avançar, retroceder e escolher qualquer vídeo da playlist.
+* Para cursos longos, você pode repetir o mesmo script em cada pasta de módulo.
+
+---
+
+💡 **Dica extra:**
+Se quiser que a playlist seja ordenada numericamente (1., 2., 3., …), certifique-se que os nomes dos arquivos tenham prefixo numérico. O `sort` no script organiza automaticamente nessa ordem.
