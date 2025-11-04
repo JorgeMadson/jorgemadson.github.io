@@ -1,6 +1,11 @@
 ---
-title: "Como Fazer Streaming de Vídeos via VLC pelo SSH"
+title: "Streaming de Vídeos com VLC via SSH"
+description: "Aprenda a criar um streaming de vídeos do seu servidor usando VLC, com playlist automática, controle via web e suporte a vídeos com espaços e acentos nos nomes."
 date: "2025-11-04"
+author: "Jorge Madson"
+tags: ["VLC", "Streaming", "SSH", "Linux", "Tutoriais"]
+image: "/placeholder.svg?height=200&width=400"
+published: true
 ---
 
 import CodeBlock from '@theme/CodeBlock'
